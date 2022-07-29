@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "649531054666",
+    "firebase_url": "https://jobfinder-app-9ec2e-default-rtdb.europe-west1.firebasedatabase.app",
+    "project_id": "jobfinder-app-9ec2e",
+    "storage_bucket": "jobfinder-app-9ec2e.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:649531054666:android:b363d9a15797d59af624b3",
+        "android_client_info": {
+          "package_name": "com.example.jobfinder"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "649531054666-v2cql6u5i0g743c376f88sb5782vctc5.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.jobfinder",
+            "certificate_hash": "35d55eea24a59235d2e3155c53189a7d4d9675d4"
+          }
+        },
+        {
+          "client_id": "649531054666-ovpsv8pbqh7ocjr34kbmdqaoj5bu6art.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAXTsFxJMvfiubv5HTccEHMUBPx0xR843M"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "649531054666-ovpsv8pbqh7ocjr34kbmdqaoj5bu6art.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

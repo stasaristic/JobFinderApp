@@ -1,0 +1,212 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/back"
+    tools:context=".JobPostActivity">
+
+    <!--Toolbar-->
+    <RelativeLayout
+        android:id="@+id/toolbarRl"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/shape_toolbar01">
+
+        <!--Back button-->
+        <ImageButton
+            android:id="@+id/backBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_arrow_back_white"
+            android:background="@android:color/transparent"
+            android:layout_margin="10dp"
+            android:padding="5dp"/>
+
+        <!--Logo image-->
+        <ImageView
+            android:id="@+id/iconIv"
+            android:layout_width="110dp"
+            android:layout_height="110dp"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@id/backBtn"
+            android:src="@drawable/logo"/>
+
+        <!--Title-->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/iconIv"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:fontFamily="sans-serif-condensed"
+            android:text="Post a New Job Listing"
+            android:textColor="@color/white"
+            android:textSize="28sp"/>
+
+        <!--Attach a pdf button-->
+        <ImageButton
+            android:id="@+id/attachPdfBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_margin="10dp"
+            android:background="@android:color/transparent"
+            android:padding="5dp"
+            android:src="@drawable/ic_attach_white"/>
+
+    </RelativeLayout>
+
+    <!--Input Title-->
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/titleTil"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="30dp"
+        android:layout_marginEnd="30dp"
+        android:layout_marginTop="225dp"
+        app:hintEnabled="false">
+
+        <EditText
+            android:id="@+id/titleEt"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/shape_edittext01"
+            android:drawableStart="@drawable/ic_work_gray"
+            android:drawablePadding="10dp"
+            android:hint="Job Title"
+            android:textColorHint="@color/gray_02"
+            android:inputType="textPersonName|textCapWords"
+            android:padding="10dp"
+            android:textSize="16sp"
+            android:textColor="@color/black"/>
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <!--Input Description-->
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/descriptionTil"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/titleTil"
+        android:layout_marginStart="30dp"
+        android:layout_marginEnd="30dp"
+        android:layout_marginTop="5dp"
+        app:hintEnabled="false">
+
+        <EditText
+            android:id="@+id/descriptionEt"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/shape_edittext01"
+            android:drawableStart="@drawable/ic_work_gray"
+            android:drawablePadding="10dp"
+            android:hint="Job Description"
+            android:textColorHint="@color/gray_02"
+            android:inputType="textMultiLine|textCapSentences"
+            android:padding="10dp"
+            android:textSize="16sp"
+            android:textColor="@color/black"/>
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <!--Pick a Company-->
+    <TextView
+        android:id="@+id/companyTv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/descriptionTil"
+        android:layout_marginStart="30dp"
+        android:layout_marginEnd="30dp"
+        android:layout_marginTop="5dp"
+        android:background="@drawable/shape_edittext01"
+        android:drawableStart="@drawable/ic_company_gray"
+        android:drawableEnd="@drawable/ic_arrow_drop_down_gray"
+        android:drawablePadding="10dp"
+        android:gravity="center_vertical"
+        android:hint="Job Company"
+        android:textColorHint="@color/gray_02"
+        android:padding="10dp"
+        android:textColor="@color/black"
+        android:textSize="16sp"/>
+
+    <!--Pick a Category-->
+    <TextView
+        android:id="@+id/categoryTv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/companyTv"
+        android:layout_marginStart="30dp"
+        android:layout_marginEnd="30dp"
+        android:layout_marginTop="5dp"
+        android:background="@drawable/shape_edittext01"
+        android:drawableStart="@drawable/ic_category_gray"
+        android:drawableEnd="@drawable/ic_arrow_drop_down_gray"
+        android:drawablePadding="10dp"
+        android:gravity="center_vertical"
+        android:hint="Job Category"
+        android:textColorHint="@color/gray_02"
+        android:padding="10dp"
+        android:textColor="@color/black"
+        android:textSize="16sp"/>
+
+    <!--Pick a Type-->
+    <TextView
+        android:id="@+id/typeTv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/categoryTv"
+        android:layout_marginStart="30dp"
+        android:layout_marginEnd="30dp"
+        android:layout_marginTop="5dp"
+        android:background="@drawable/shape_edittext01"
+        android:drawableStart="@drawable/ic_job_type_gray"
+        android:drawableEnd="@drawable/ic_arrow_drop_down_gray"
+        android:drawablePadding="10dp"
+        android:gravity="center_vertical"
+        android:hint="Job Work Time Type"
+        android:textColorHint="@color/gray_02"
+        android:padding="10dp"
+        android:textColor="@color/black"
+        android:textSize="16sp"/>
+
+    <!--Pick a Seniority-->
+    <TextView
+        android:id="@+id/seniorityTv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/typeTv"
+        android:layout_marginStart="30dp"
+        android:layout_marginEnd="30dp"
+        android:layout_marginTop="5dp"
+        android:background="@drawable/shape_edittext01"
+        android:drawableStart="@drawable/ic_seniority_gray"
+        android:drawableEnd="@drawable/ic_arrow_drop_down_gray"
+        android:drawablePadding="10dp"
+        android:gravity="center_vertical"
+        android:hint="Job Seniority Required"
+        android:textColorHint="@color/gray_02"
+        android:padding="10dp"
+        android:textColor="@color/black"
+        android:textSize="16sp"/>
+
+    <!--Submit-->
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/submitBtn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="30dp"
+        android:layout_marginEnd="30dp"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/shape_button01"
+        android:text="Submit"
+        android:layout_below="@id/seniorityTv"
+        android:textColor="@color/white"/>
+
+
+
+
+
+</RelativeLayout>

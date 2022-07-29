@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">Job Finder</string>
+    <string name="new_user_register">Don\'t have an account? <b>Register.</b></string>
+</resources>

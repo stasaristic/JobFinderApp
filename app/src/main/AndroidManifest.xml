@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.example.jobfinder">
+    <!-- All required permissions -->
+    <uses-permission android:name="android.permission.INTERNET" />
+
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.MaterialComponents.NoActionBar">
+        <activity
+            android:name=".ApplicantsReviewActivity"
+            android:exported="false" />
+        <activity
+            android:name=".PostedJobsActivity"
+            android:exported="false" />
+        <activity
+            android:name=".JobPostActivity"
+            android:exported="false" />
+        <activity
+            android:name=".NewUserActivity"
+            android:exported="false" />
+        <activity
+            android:name=".JobSeniorityActivity"
+            android:exported="false" />
+        <activity
+            android:name=".JobTypeAddActivity"
+            android:exported="false" />
+        <activity
+            android:name=".CompanyAddActivity"
+            android:exported="false" />
+        <activity
+            android:name=".UpgradeUserActivity"
+            android:exported="false" />
+        <activity
+            android:name=".NewUserAddActivity"
+            android:exported="false" />
+        <activity
+            android:name=".CategoryAddActivity"
+            android:exported="false" />
+        <activity
+            android:name=".DashboardRecruiterActivity"
+            android:exported="false" />
+        <activity
+            android:name=".DashboardAdminActivity"
+            android:exported="false" />
+        <activity
+            android:name=".DashboardUserActivity"
+            android:exported="false" />
+        <activity
+            android:name=".LoginActivity"
+            android:exported="false" />
+        <activity
+            android:name=".RegisterActivity"
+            android:exported="false" />
+        <activity android:name=".MainActivity" />
+        <activity
+            android:name=".SplashActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+    </application>
+
+</manifest>
