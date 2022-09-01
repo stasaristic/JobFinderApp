@@ -1,8 +1,7 @@
-package com.example.jobfinder;
+package com.example.jobfinder.adapters;
 
 import android.content.Context;
 import android.content.DialogInterface;
-import android.provider.ContactsContract;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +15,8 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.jobfinder.filters.FilterCategory;
+import com.example.jobfinder.models.ModelCategory;
 import com.example.jobfinder.databinding.RowItemsBinding;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;

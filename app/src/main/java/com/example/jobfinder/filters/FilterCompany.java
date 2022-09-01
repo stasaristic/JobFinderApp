@@ -1,30 +1,35 @@
-package com.example.jobfinder;
+package com.example.jobfinder.filters;
 
 import android.widget.Filter;
 
+import com.example.jobfinder.models.ModelCompany;
+import com.example.jobfinder.adapters.AdapterCompany;
+
 import java.util.ArrayList;
 
-public class FilterCategory extends Filter {
+public class FilterCompany extends Filter {
 
-    ArrayList<ModelCategory> filterList;
-    AdapterCategory adapterCategory;
+    // arraylist in which we want to search
+    ArrayList<ModelCompany> filterList;
+    //adapter in which the filter is implemented
+    AdapterCompany adapterCompany;
 
-    public FilterCategory(ArrayList<ModelCategory> filterList, AdapterCategory adapterCategory) {
+    // constructor
+    public FilterCompany(ArrayList<ModelCompany> filterList, AdapterCompany adapterCompany) {
         this.filterList = filterList;
-        this.adapterCategory = adapterCategory;
+        this.adapterCompany = adapterCompany;
     }
 
     @Override
     protected FilterResults performFiltering(CharSequence constraint) {
         FilterResults results = new FilterResults();
-
+        // value should not be null and empty
         if (constraint != null && constraint.length() > 0) {
             constraint = constraint.toString().toUpperCase();
-            ArrayList<ModelCategory> filteredModels = new ArrayList<>();
-
+            ArrayList<ModelCompany> filteredModels = new ArrayList<>();
             for (int i = 0; i < filterList.size(); i++) {
 
-                if (filterList.get(i).getCategory().toUpperCase().contains(constraint)) {
+                if (filterList.get(i).getCompany().toUpperCase().contains(constraint)) {
                     filteredModels.add(filterList.get(i));
                 }
             }
@@ -41,10 +46,8 @@ public class FilterCategory extends Filter {
 
     @Override
     protected void publishResults(CharSequence constraint, FilterResults results) {
-        adapterCategory.categoryArrayList = (ArrayList<ModelCategory>) results.values;
+        adapterCompany.companyArrayList = (ArrayList<ModelCompany>) results.values;
 
-        adapterCategory.notifyDataSetChanged();
+        adapterCompany.notifyDataSetChanged();
     }
-
-
 }

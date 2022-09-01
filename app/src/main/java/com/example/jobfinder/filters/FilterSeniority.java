@@ -1,17 +1,20 @@
-package com.example.jobfinder;
+package com.example.jobfinder.filters;
 
 import android.widget.Filter;
 
+import com.example.jobfinder.models.ModelSeniority;
+import com.example.jobfinder.adapters.AdapterSeniority;
+
 import java.util.ArrayList;
 
-public class FilterType extends Filter {
+public class FilterSeniority extends Filter {
 
-    ArrayList<ModelType> filterList;
-    AdapterType adapterType;
+    ArrayList<ModelSeniority> filterList;
+    AdapterSeniority adapterSeniority;
 
-    public FilterType(ArrayList<ModelType> filterList, AdapterType adapterType) {
+    public FilterSeniority(ArrayList<ModelSeniority> filterList, AdapterSeniority adapterSeniority) {
         this.filterList = filterList;
-        this.adapterType = adapterType;
+        this.adapterSeniority = adapterSeniority;
     }
 
     @Override
@@ -20,11 +23,11 @@ public class FilterType extends Filter {
 
         if (constraint != null && constraint.length() > 0) {
             constraint = constraint.toString().toUpperCase();
-            ArrayList<ModelType> filteredModels = new ArrayList<>();
+            ArrayList<ModelSeniority> filteredModels = new ArrayList<>();
 
             for (int i = 0; i < filterList.size(); i++) {
 
-                if (filterList.get(i).getType().toUpperCase().contains(constraint)) {
+                if (filterList.get(i).getSeniority().toUpperCase().contains(constraint)) {
                     filteredModels.add(filterList.get(i));
                 }
             }
@@ -41,8 +44,8 @@ public class FilterType extends Filter {
 
     @Override
     protected void publishResults(CharSequence constraint, FilterResults results) {
-        adapterType.typeArrayList = (ArrayList<ModelType>) results.values;
+        adapterSeniority.seniorityArrayList = (ArrayList<ModelSeniority>) results.values;
 
-        adapterType.notifyDataSetChanged();
+        adapterSeniority.notifyDataSetChanged();
     }
 }

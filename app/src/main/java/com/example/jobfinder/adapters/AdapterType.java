@@ -1,4 +1,4 @@
-package com.example.jobfinder;
+package com.example.jobfinder.adapters;
 
 import android.content.Context;
 import android.content.DialogInterface;
@@ -15,6 +15,8 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.jobfinder.filters.FilterType;
+import com.example.jobfinder.models.ModelType;
 import com.example.jobfinder.databinding.RowItemsBinding;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -23,59 +25,58 @@ import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
 
-public class AdapterCompany extends RecyclerView.Adapter<AdapterCompany.HolderCompany> implements Filterable {
+public class AdapterType extends RecyclerView.Adapter<AdapterType.HolderType> implements Filterable {
 
     private Context context;
-    public ArrayList<ModelCompany> companyArrayList, filterList;
+    public ArrayList<ModelType> typeArrayList, filterList;
 
-    // view binding
     private RowItemsBinding binding;
 
-    // instance of filter class
-    private FilterCompany filter;
+    private FilterType filter;
 
-
-    public AdapterCompany(Context context, ArrayList<ModelCompany> companyArrayList) {
+    public AdapterType(Context context, ArrayList<ModelType> typeArrayList) {
         this.context = context;
-        this.companyArrayList = companyArrayList;
-        this.filterList = companyArrayList;
+        this.typeArrayList = typeArrayList;
+        this.filterList = typeArrayList;
+    }
+
+    @Override
+    public Filter getFilter() {
+        if (filter == null) {
+            filter = new FilterType(filterList, this);
+        }
+        return filter;
     }
 
     @NonNull
     @Override
-    public AdapterCompany.HolderCompany onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        // bind row_companies.xml
+    public AdapterType.HolderType onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         binding = RowItemsBinding.inflate(LayoutInflater.from(context), parent, false);
 
-        return new HolderCompany(binding.getRoot());
+        return new AdapterType.HolderType(binding.getRoot());
     }
 
     @Override
-    public void onBindViewHolder(@NonNull AdapterCompany.HolderCompany holder, int position) {
-        //get data
-        ModelCompany model = companyArrayList.get(position);
+    public void onBindViewHolder(@NonNull AdapterType.HolderType holder, int position) {
+        ModelType model = typeArrayList.get(position);
         String id = model.getId();
-        String company = model.getCompany();
+        String type = model.getType();
         long timestamp = model.getTimestamp();
         String uid = model.getUid();
 
-        //set data
-        holder.itemTv.setText(company);
+        holder.itemTv.setText(type);
 
-        //handle click, delete company
         holder.deleteBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // confirm delete dialog
                 AlertDialog.Builder builder = new AlertDialog.Builder(context);
                 builder.setTitle("Delete")
-                        .setMessage("Are you sure you want to delete this company?")
+                        .setMessage("Are you sure you want to delete this type of job?")
                         .setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                // begin delete
                                 Toast.makeText(context, "Deleting...", Toast.LENGTH_SHORT).show();
-                                deleteCompany(model, holder);
+                                deleteType(model, holder);
                             }
                         })
                         .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
@@ -89,51 +90,38 @@ public class AdapterCompany extends RecyclerView.Adapter<AdapterCompany.HolderCo
         });
     }
 
-    private void deleteCompany(ModelCompany model, HolderCompany holder) {
-        // get id of company to delete
+    private void deleteType(ModelType model, HolderType holder) {
         String id = model.getId();
-        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Companies");
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Types");
         ref.child(id)
-            .removeValue()
-            .addOnSuccessListener(new OnSuccessListener<Void>() {
-                @Override
-                public void onSuccess(Void unused) {
-                    // deleted successfully
-                    Toast.makeText(context, "Successfully deleted...", Toast.LENGTH_SHORT).show();
-                }
-            }).addOnFailureListener(new OnFailureListener() {
+                .removeValue()
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
-                    public void onFailure(@NonNull Exception e) {
-                        //failed to delete
-                        Toast.makeText(context, ""+e.getMessage(), Toast.LENGTH_SHORT).show();
+                    public void onSuccess(Void unused) {
+                        Toast.makeText(context, "Successfully deleted...", Toast.LENGTH_SHORT).show();
                     }
-                });
+                }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                //failed to delete
+                Toast.makeText(context, ""+e.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     @Override
     public int getItemCount() {
-        return companyArrayList.size();
+        return typeArrayList.size();
     }
 
-    @Override
-    public Filter getFilter() {
-        if (filter == null) {
-            filter = new FilterCompany(filterList, this);
-        }
-        return filter;
-    }
+    public class HolderType extends RecyclerView.ViewHolder {
 
-    /*View holder class to hold UI views for row_companies.xml*/
-    class HolderCompany extends RecyclerView.ViewHolder {
-
-        //ui views of row_companies.xml
         TextView itemTv;
         ImageButton deleteBtn;
 
-        public HolderCompany(@NonNull View itemView) {
+        public HolderType(@NonNull View itemView) {
             super(itemView);
 
-            //init ui views
             itemTv = binding.itemTv;
             deleteBtn = binding.deleteBtn;
         }

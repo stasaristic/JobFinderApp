@@ -1,18 +1,23 @@
-package com.example.jobfinder;
+package com.example.jobfinder.models;
 
-public class ModelSeniority {
-    String id, seniority, uid;
+public class ModelCompany {
+
+    String id, company, uid;
     long timestamp;
 
-    public ModelSeniority() {
+    // constructor empty required for firebase
+    public ModelCompany() {
     }
 
-    public ModelSeniority(String id, String seniority, String uid, long timestamp) {
+    // parametrized constructor
+    public ModelCompany(String id, String company, String uid, long timestamp) {
         this.id = id;
-        this.seniority = seniority;
+        this.company = company;
         this.uid = uid;
         this.timestamp = timestamp;
     }
+
+    /* Getters and Setters*/
 
     public String getId() {
         return id;
@@ -22,12 +27,12 @@ public class ModelSeniority {
         this.id = id;
     }
 
-    public String getSeniority() {
-        return seniority;
+    public String getCompany() {
+        return company;
     }
 
-    public void setSeniority(String seniority) {
-        this.seniority = seniority;
+    public void setCompany(String company) {
+        this.company = company;
     }
 
     public String getUid() {

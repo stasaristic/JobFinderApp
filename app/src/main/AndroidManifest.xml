@@ -12,6 +12,12 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MaterialComponents.NoActionBar">
         <activity
+            android:name=".JobDetailActivity"
+            android:exported="false" />
+        <activity
+            android:name=".EditJobRecruiterActivity"
+            android:exported="false" />
+        <activity
             android:name=".ApplicantsReviewActivity"
             android:exported="false" />
         <activity

@@ -1,4 +1,4 @@
-package com.example.jobfinder;
+package com.example.jobfinder.models;
 
 public class ModelCategory {
     String id, category, uid;

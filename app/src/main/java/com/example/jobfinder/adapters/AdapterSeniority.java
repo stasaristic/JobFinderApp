@@ -1,4 +1,4 @@
-package com.example.jobfinder;
+package com.example.jobfinder.adapters;
 
 import android.content.Context;
 import android.content.DialogInterface;
@@ -15,6 +15,8 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.jobfinder.filters.FilterSeniority;
+import com.example.jobfinder.models.ModelSeniority;
 import com.example.jobfinder.databinding.RowItemsBinding;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -23,58 +25,58 @@ import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
 
-public class AdapterType extends RecyclerView.Adapter<AdapterType.HolderType> implements Filterable {
+public class AdapterSeniority extends RecyclerView.Adapter<AdapterSeniority.HolderSeniority> implements Filterable {
 
     private Context context;
-    public ArrayList<ModelType> typeArrayList, filterList;
+    public ArrayList<ModelSeniority> seniorityArrayList, filterList;
 
     private RowItemsBinding binding;
 
-    private FilterType filter;
+    private FilterSeniority filter;
 
-    public AdapterType(Context context, ArrayList<ModelType> typeArrayList) {
+    public AdapterSeniority(Context context, ArrayList<ModelSeniority> seniorityArrayList) {
         this.context = context;
-        this.typeArrayList = typeArrayList;
-        this.filterList = typeArrayList;
+        this.seniorityArrayList = seniorityArrayList;
+        this.filterList = seniorityArrayList;
     }
 
     @Override
     public Filter getFilter() {
         if (filter == null) {
-            filter = new FilterType(filterList, this);
+            filter = new FilterSeniority(filterList, this);
         }
         return filter;
     }
 
     @NonNull
     @Override
-    public AdapterType.HolderType onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public AdapterSeniority.HolderSeniority onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         binding = RowItemsBinding.inflate(LayoutInflater.from(context), parent, false);
 
-        return new AdapterType.HolderType(binding.getRoot());
+        return new AdapterSeniority.HolderSeniority(binding.getRoot());
     }
 
     @Override
-    public void onBindViewHolder(@NonNull AdapterType.HolderType holder, int position) {
-        ModelType model = typeArrayList.get(position);
+    public void onBindViewHolder(@NonNull AdapterSeniority.HolderSeniority holder, int position) {
+        ModelSeniority model = seniorityArrayList.get(position);
         String id = model.getId();
-        String type = model.getType();
+        String seniority = model.getSeniority();
         long timestamp = model.getTimestamp();
         String uid = model.getUid();
 
-        holder.itemTv.setText(type);
+        holder.itemTv.setText(seniority);
 
         holder.deleteBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(context);
                 builder.setTitle("Delete")
-                        .setMessage("Are you sure you want to delete this type of job?")
+                        .setMessage("Are you sure you want to delete this job level of seniority?")
                         .setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 Toast.makeText(context, "Deleting...", Toast.LENGTH_SHORT).show();
-                                deleteType(model, holder);
+                                deleteSeniority(model, holder);
                             }
                         })
                         .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
@@ -88,9 +90,9 @@ public class AdapterType extends RecyclerView.Adapter<AdapterType.HolderType> im
         });
     }
 
-    private void deleteType(ModelType model, HolderType holder) {
+    private void deleteSeniority(ModelSeniority model, HolderSeniority holder) {
         String id = model.getId();
-        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Types");
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Seniority");
         ref.child(id)
                 .removeValue()
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
@@ -109,15 +111,14 @@ public class AdapterType extends RecyclerView.Adapter<AdapterType.HolderType> im
 
     @Override
     public int getItemCount() {
-        return typeArrayList.size();
+        return seniorityArrayList.size();
     }
 
-    public class HolderType extends RecyclerView.ViewHolder {
-
+    public class HolderSeniority extends RecyclerView.ViewHolder {
         TextView itemTv;
         ImageButton deleteBtn;
 
-        public HolderType(@NonNull View itemView) {
+        public HolderSeniority(@NonNull View itemView) {
             super(itemView);
 
             itemTv = binding.itemTv;

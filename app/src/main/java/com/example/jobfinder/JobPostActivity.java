@@ -15,8 +15,11 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
-import com.example.jobfinder.databinding.ActivityDashboardRecruiterBinding;
 import com.example.jobfinder.databinding.ActivityJobPostBinding;
+import com.example.jobfinder.models.ModelCategory;
+import com.example.jobfinder.models.ModelCompany;
+import com.example.jobfinder.models.ModelSeniority;
+import com.example.jobfinder.models.ModelType;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
@@ -45,10 +48,10 @@ public class JobPostActivity extends AppCompatActivity {
     private ProgressDialog progressDialog;
 
     // arraylist for companies, categories, types and seniority
-    private ArrayList<ModelCompany> companyArrayList;
-    private ArrayList<ModelCategory> categoryArrayList;
-    private ArrayList<ModelType> typeArrayList;
-    private ArrayList<ModelSeniority> seniorityArrayList;
+    private ArrayList<String> companyTitleArrayList, companyIdArrayList;
+    private ArrayList<String> categoryTitleArrayList, categoryIdArrayList;
+    private ArrayList<String> typeTitleArrayList, typeIdArrayList;
+    private ArrayList<String> seniorityTitleArrayList, seniorityIdArrayList;
 
     // uri of picked pdf
     private Uri pdfUri = null;
@@ -132,7 +135,8 @@ public class JobPostActivity extends AppCompatActivity {
         });
     }
 
-    private String title = "", description = "", company = "", category = "", type = "", seniority = "";
+    private String title = "", description = "";
+            //company = "", category = "", type = "", seniority = "";
 
     private void validateData() {
         // Step 1: Validate data
@@ -141,10 +145,10 @@ public class JobPostActivity extends AppCompatActivity {
         // get data
         title = binding.titleEt.getText().toString().trim();
         description = binding.descriptionEt.getText().toString().trim();
-        company = binding.companyTv.getText().toString().trim();
-        category = binding.categoryTv.getText().toString().trim();
-        type = binding.typeTv.getText().toString().trim();
-        seniority = binding.seniorityTv.getText().toString().trim();
+        //company = binding.companyTv.getText().toString().trim();
+        //category = binding.categoryTv.getText().toString().trim();
+        //type = binding.typeTv.getText().toString().trim();
+        //seniority = binding.seniorityTv.getText().toString().trim();
 
         // validate data
         if (TextUtils.isEmpty(title)){
@@ -153,16 +157,16 @@ public class JobPostActivity extends AppCompatActivity {
         else if (TextUtils.isEmpty(description)) {
             Toast.makeText(this, "Enter Description...", Toast.LENGTH_SHORT).show();
         }
-        else if (TextUtils.isEmpty(company)) {
+        else if (TextUtils.isEmpty(selectedCompanyTitle)) {
             Toast.makeText(this, "Enter Company...", Toast.LENGTH_SHORT).show();
         }
-        else if (TextUtils.isEmpty(category)) {
+        else if (TextUtils.isEmpty(selectedCategoryTitle)) {
             Toast.makeText(this, "Enter Category...", Toast.LENGTH_SHORT).show();
         }
-        else if (TextUtils.isEmpty(type)) {
+        else if (TextUtils.isEmpty(selectedTypeTitle)) {
             Toast.makeText(this, "Enter Job Type...", Toast.LENGTH_SHORT).show();
         }
-        else if (TextUtils.isEmpty(seniority)) {
+        else if (TextUtils.isEmpty(selectedSeniorityTitle)) {
             Toast.makeText(this, "Enter Seniority...", Toast.LENGTH_SHORT).show();
         }
         else if (pdfUri == null) {
@@ -230,10 +234,10 @@ public class JobPostActivity extends AppCompatActivity {
         hashMap.put("id", ""+timestamp);
         hashMap.put("title", ""+title);
         hashMap.put("description", ""+description);
-        hashMap.put("company", ""+company);
-        hashMap.put("category", ""+category);
-        hashMap.put("type", ""+type);
-        hashMap.put("seniority", ""+seniority);
+        hashMap.put("companyId", ""+selectedCompanyId);
+        hashMap.put("categoryId", ""+selectedCategoryId);
+        hashMap.put("typeId", ""+selectedTypeId);
+        hashMap.put("seniorityId", ""+selectedSeniorityId);
         hashMap.put("url", ""+uploadedPdfUrl);
         hashMap.put("timestamp", timestamp);
 
@@ -265,19 +269,24 @@ public class JobPostActivity extends AppCompatActivity {
         for(int i=0; i < typeItems.length; i++){
             Log.d(TAG, "loading items: " + typeItems[i]);
             if (typeItems[i]=="Companies"){
-                companyArrayList = new ArrayList<>();
+                companyTitleArrayList = new ArrayList<>();
+                companyIdArrayList = new ArrayList<>();
 
                 // db reference to lead items... db > ItemType
                 ref = FirebaseDatabase.getInstance().getReference(typeItems[i]);
                 ref.addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
-                        companyArrayList.clear();
+                        companyTitleArrayList.clear();
+                        companyTitleArrayList.clear();
                         for (DataSnapshot ds: snapshot.getChildren()) {
-                            ModelCompany model = ds.getValue(ModelCompany.class);
-                            companyArrayList.add(model);
+                            // get id and title of company
+                            String companyId = ""+ds.child("id").getValue();
+                            String companyTitle = ""+ds.child("company").getValue();
 
-                            Log.d(TAG, "onDataChange: " + model.getCompany());
+                            // add to respective array
+                            companyIdArrayList.add(companyId);
+                            companyTitleArrayList.add(companyTitle);
                         }
                     }
 
@@ -288,19 +297,24 @@ public class JobPostActivity extends AppCompatActivity {
                 });
             }
             else if (typeItems[i]=="Categories"){
-                categoryArrayList = new ArrayList<>();
+                categoryTitleArrayList = new ArrayList<>();
+                categoryIdArrayList = new ArrayList<>();
 
                 // db reference to lead items... db > ItemType
                 ref = FirebaseDatabase.getInstance().getReference(typeItems[i]);
                 ref.addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
-                        categoryArrayList.clear();
+                        categoryTitleArrayList.clear();
+                        categoryIdArrayList.clear();
                         for (DataSnapshot ds: snapshot.getChildren()) {
-                            ModelCategory model = ds.getValue(ModelCategory.class);
-                            categoryArrayList.add(model);
+                            // get id and title of category
+                            String categoryId = ""+ds.child("id").getValue();
+                            String categoryTitle = ""+ds.child("category").getValue();
 
-                            Log.d(TAG, "onDataChange: " + model.getCategory());
+                            // add to respective array
+                            categoryIdArrayList.add(categoryId);
+                            categoryTitleArrayList.add(categoryTitle);
                         }
                     }
 
@@ -311,19 +325,24 @@ public class JobPostActivity extends AppCompatActivity {
                 });
             }
             else if (typeItems[i]=="Types"){
-                typeArrayList = new ArrayList<>();
+                typeTitleArrayList = new ArrayList<>();
+                typeIdArrayList = new ArrayList<>();
 
                 // db reference to lead items... db > ItemType
                 ref = FirebaseDatabase.getInstance().getReference(typeItems[i]);
                 ref.addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
-                        typeArrayList.clear();
+                        typeTitleArrayList.clear();
+                        typeIdArrayList.clear();
                         for (DataSnapshot ds: snapshot.getChildren()) {
-                            ModelType model = ds.getValue(ModelType.class);
-                            typeArrayList.add(model);
+                            // get id and title of type
+                            String typeId = ""+ds.child("id").getValue();
+                            String typeTitle = ""+ds.child("type").getValue();
 
-                            Log.d(TAG, "onDataChange: " + model.getType());
+                            // add to respective array
+                            typeIdArrayList.add(typeId);
+                            typeTitleArrayList.add(typeTitle);
                         }
                     }
 
@@ -334,19 +353,24 @@ public class JobPostActivity extends AppCompatActivity {
                 });
             }
             else if (typeItems[i]=="Seniority"){
-                seniorityArrayList = new ArrayList<>();
+                seniorityTitleArrayList = new ArrayList<>();
+                seniorityIdArrayList = new ArrayList<>();
 
                 // db reference to lead items... db > ItemType
                 ref = FirebaseDatabase.getInstance().getReference(typeItems[i]);
                 ref.addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
-                        seniorityArrayList.clear();
+                        seniorityTitleArrayList.clear();
+                        seniorityIdArrayList.clear();
                         for (DataSnapshot ds: snapshot.getChildren()) {
-                            ModelSeniority model = ds.getValue(ModelSeniority.class);
-                            seniorityArrayList.add(model);
+                            // get id and title of seniority
+                            String seniorityId = ""+ds.child("id").getValue();
+                            String seniorityTitle = ""+ds.child("seniority").getValue();
 
-                            Log.d(TAG, "onDataChange: " + model.getSeniority());
+                            // add to respective array
+                            seniorityIdArrayList.add(seniorityId);
+                            seniorityTitleArrayList.add(seniorityTitle);
                         }
                     }
 
@@ -360,15 +384,20 @@ public class JobPostActivity extends AppCompatActivity {
 
     }
 
+    private String selectedCompanyId, selectedCompanyTitle;
+    private String selectedCategoryId, selectedCategoryTitle;
+    private String selectedTypeId, selectedTypeTitle;
+    private String selectedSeniorityId, selectedSeniorityTitle;
+
     private void itemPickDialog(String items) {
         Log.d(TAG, "itemPickDialog: showing " + items + " pick dialog...");
 
         // get string array of items from arraylist
         if (items == "Companies") {
-            String[] companyArray = new String[companyArrayList.size()];
+            String[] companyArray = new String[companyTitleArrayList.size()];
 
-            for (int i=0; i<companyArrayList.size(); i++) {
-                companyArray[i] = companyArrayList.get(i).getCompany();
+            for (int i=0; i<companyTitleArrayList.size(); i++) {
+                companyArray[i] = companyTitleArrayList.get(i);
             }
 
             // alert dialog
@@ -379,20 +408,22 @@ public class JobPostActivity extends AppCompatActivity {
                         public void onClick(DialogInterface dialog, int which) {
                             // handle item click
                             // get clicked item from list
-                            String company = companyArray[which];
-                            // set to company textview
-                            binding.companyTv.setText(company);
+                            selectedCompanyTitle = companyTitleArrayList.get(which);
+                            selectedCompanyId = companyIdArrayList.get(which);
 
-                            Log.d(TAG, "onClick: Company chosen: " + company);
+                            // set to company textview
+                            binding.companyTv.setText(selectedCompanyTitle);
+
+                            Log.d(TAG, "onClick: Company chosen: " + selectedCompanyTitle);
                         }
                     })
                     .show();
         }
         else if (items == "Categories") {
-            String[] categoryArray = new String[categoryArrayList.size()];
+            String[] categoryArray = new String[categoryTitleArrayList.size()];
 
-            for (int i=0; i<categoryArrayList.size(); i++) {
-                categoryArray[i] = categoryArrayList.get(i).getCategory();
+            for (int i=0; i<categoryTitleArrayList.size(); i++) {
+                categoryArray[i] = categoryTitleArrayList.get(i);
             }
 
             // alert dialog
@@ -403,20 +434,21 @@ public class JobPostActivity extends AppCompatActivity {
                         public void onClick(DialogInterface dialog, int which) {
                             // handle item click
                             // get clicked item from list
-                            String category = categoryArray[which];
-                            // set to company textview
-                            binding.categoryTv.setText(category);
+                            selectedCategoryTitle = categoryTitleArrayList.get(which);
+                            selectedCategoryId = categoryIdArrayList.get(which);
+                            // set to category textview
+                            binding.categoryTv.setText(selectedCategoryTitle);
 
-                            Log.d(TAG, "onClick: Category chosen: " + category);
+                            Log.d(TAG, "onClick: Category chosen: " + selectedCategoryTitle);
                         }
                     })
                     .show();
         }
         else if (items == "Types") {
-            String[] typesArray = new String[typeArrayList.size()];
+            String[] typesArray = new String[typeTitleArrayList.size()];
 
-            for (int i=0; i<typeArrayList.size(); i++) {
-                typesArray[i] = typeArrayList.get(i).getType();
+            for (int i=0; i<typeTitleArrayList.size(); i++) {
+                typesArray[i] = typeTitleArrayList.get(i);
             }
 
             // alert dialog
@@ -427,20 +459,21 @@ public class JobPostActivity extends AppCompatActivity {
                         public void onClick(DialogInterface dialog, int which) {
                             // handle item click
                             // get clicked item from list
-                            String type = typesArray[which];
-                            // set to company textview
-                            binding.typeTv.setText(type);
+                            selectedTypeId = typeIdArrayList.get(which);
+                            selectedTypeTitle = typeTitleArrayList.get(which);
+                            // set to type textview
+                            binding.typeTv.setText(selectedTypeTitle);
 
-                            Log.d(TAG, "onClick: Type chosen: " + type);
+                            Log.d(TAG, "onClick: Type chosen: " + selectedTypeTitle);
                         }
                     })
                     .show();
         }
         else if (items == "Seniority") {
-            String[] seniorityArray = new String[seniorityArrayList.size()];
+            String[] seniorityArray = new String[seniorityTitleArrayList.size()];
 
-            for (int i=0; i<seniorityArrayList.size(); i++) {
-                seniorityArray[i] = seniorityArrayList.get(i).getSeniority();
+            for (int i=0; i<seniorityTitleArrayList.size(); i++) {
+                seniorityArray[i] = seniorityTitleArrayList.get(i);
             }
 
             // alert dialog
@@ -450,12 +483,14 @@ public class JobPostActivity extends AppCompatActivity {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             // handle item click
-                            // get clicked item from list
-                            String seniority = seniorityArray[which];
+                            // get clicked
+                            // item from list
+                            selectedSeniorityTitle = seniorityTitleArrayList.get(which);
+                            selectedSeniorityId = seniorityIdArrayList.get(which);
                             // set to company textview
-                            binding.seniorityTv.setText(seniority);
+                            binding.seniorityTv.setText(selectedSeniorityTitle);
 
-                            Log.d(TAG, "onClick: Seniority chosen: " + seniority);
+                            Log.d(TAG, "onClick: Seniority chosen: " + selectedSeniorityTitle);
                         }
                     })
                     .show();

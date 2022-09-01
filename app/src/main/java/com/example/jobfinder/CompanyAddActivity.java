@@ -11,8 +11,9 @@ import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Toast;
 
-import com.example.jobfinder.databinding.ActivityCategoryAddBinding;
+import com.example.jobfinder.adapters.AdapterCompany;
 import com.example.jobfinder.databinding.ActivityCompanyAddBinding;
+import com.example.jobfinder.models.ModelCompany;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
