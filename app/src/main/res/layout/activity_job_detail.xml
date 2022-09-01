@@ -197,12 +197,41 @@
                 android:layout_marginTop="5dp"
                 android:text="The description of the book"
                 android:textColor="@color/black"/>
-            
 
-
-
-            
         </LinearLayout>
     </ScrollView>
+
+    <LinearLayout
+        android:id="@+id/bookOptionsLl"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_alignParentBottom="true">
+
+        <!--Button: Open to view pdf-->
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/readJobSpecificationsBtn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_alignParentBottom="true"
+            android:text="READ"
+            android:background="@drawable/shape_button01"
+            android:layout_margin="10dp"/>
+
+        <!--Button: Download pdf-->
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/downloadBtn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_alignParentBottom="true"
+            android:text="Download"
+            android:background="@drawable/shape_button01"
+            android:layout_margin="10dp"/>
+
+    </LinearLayout>
+
+
 
 </RelativeLayout>

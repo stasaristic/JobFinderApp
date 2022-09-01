@@ -5,6 +5,7 @@ import static com.example.jobfinder.Constants.MAX_BYTES_PDF;
 import android.app.Application;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.os.Environment;
 import android.util.Log;
 import android.view.View;
 import android.widget.ProgressBar;
@@ -20,6 +21,7 @@ import com.github.barteksc.pdfviewer.PDFView;
 import com.github.barteksc.pdfviewer.listener.OnErrorListener;
 import com.github.barteksc.pdfviewer.listener.OnLoadCompleteListener;
 import com.github.barteksc.pdfviewer.listener.OnPageErrorListener;
+import com.google.android.gms.auth.api.signin.internal.Storage;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DataSnapshot;
@@ -29,6 +31,9 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
+
+import java.io.File;
+import java.io.FileOutputStream;
 
 //application class runs before your launcher activity
 public class MyApplication extends Application {
@@ -211,6 +216,60 @@ public class MyApplication extends Application {
 
                     }
                 });
+    }
+
+    public static void downloadJobSpec(Context context, String jobId, String title, String url) {
+        String TAG = "DOWNLOAD_TAG";
+        Log.d(TAG, "downloadJobSpec: downloading job spec...");
+        String nameWithExtension = title + ".pdf";
+
+        ProgressDialog progressDialog = new ProgressDialog(context);
+        progressDialog.setTitle("Please wait");
+        progressDialog.setMessage("Downloading..." + nameWithExtension);
+        progressDialog.setCanceledOnTouchOutside(false);
+        progressDialog.show();
+
+        StorageReference storageReference = FirebaseStorage.getInstance().getReferenceFromUrl(url);
+        storageReference.getBytes(MAX_BYTES_PDF)
+                .addOnSuccessListener(new OnSuccessListener<byte[]>() {
+                    @Override
+                    public void onSuccess(byte[] bytes) {
+                        Log.d(TAG, "onSuccess: Job specification downloaded");
+                        saveDownloadedJobSpec(context, progressDialog, bytes, nameWithExtension, jobId);
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.d(TAG, "onFailure: Failed to download due to "+ e.getMessage());
+                        progressDialog.dismiss();
+                        Toast.makeText(context, "Failed due to " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                        
+                    }
+                });
+    }
+
+    private static void saveDownloadedJobSpec(Context context, ProgressDialog progressDialog, byte[] bytes, String nameWithExtension, String jobId) {
+        String TAG = "SAVING_TAG";
+        Log.d(TAG, "saveDownloadedJobSpec: Saving Job spec");
+        try{
+            File downloadsFolder = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
+            downloadsFolder.mkdirs();
+
+            String filePath = downloadsFolder.getPath() + "/" + nameWithExtension;
+
+            FileOutputStream out = new FileOutputStream(filePath);
+            out.write(bytes);
+            out.close();
+            
+            Toast.makeText(context, "Saved to Download Folder", Toast.LENGTH_SHORT).show();
+            Log.d(TAG, "saveDownloadedJobSpec: Saved to DownloadFolder");
+            progressDialog.dismiss();
+        }
+        catch (Exception e) {
+            Toast.makeText(context, "Failed to save due to " + e.getMessage(), Toast.LENGTH_SHORT).show();
+            Log.d(TAG, "Failed to save due to "+ e.getMessage());
+        }
     }
 
 }
