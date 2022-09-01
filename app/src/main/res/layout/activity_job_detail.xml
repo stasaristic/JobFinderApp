@@ -212,10 +212,10 @@
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/readJobSpecificationsBtn"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_weight="1"
             android:layout_alignParentBottom="true"
-            android:text="READ"
+            android:text="READ Specs"
             android:background="@drawable/shape_button01"
             android:layout_margin="10dp"/>
 
@@ -223,14 +223,26 @@
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/downloadBtn"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_weight="1"
             android:layout_alignParentBottom="true"
             android:text="Download"
             android:background="@drawable/shape_button01"
             android:layout_margin="10dp"/>
 
+        <!--Button: Download pdf-->
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/addInterestBtn"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:layout_alignParentBottom="true"
+            android:text="Interested"
+            android:background="@drawable/shape_button01"
+            android:layout_margin="10dp"/>
+
     </LinearLayout>
+
 
 
 

@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 
 import com.example.jobfinder.R;
 import com.google.firebase.auth.FirebaseAuth;
@@ -39,11 +40,13 @@ public class SplashActivity extends AppCompatActivity {
     }
 
     private void checkUser() {
+        String TAG = "CHECK_USER_TAG";
         // get current user, if logged in
         FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
         if (firebaseUser == null)
         {
             // start main activity
+            Log.d(TAG, "checkUser: Postoji user");
             startActivity(new Intent(SplashActivity.this, MainActivity.class));
             finish(); // finish this activity
         }
@@ -59,8 +62,9 @@ public class SplashActivity extends AppCompatActivity {
                             // get user type
                             String userType = "" + snapshot.child("userType").getValue();
                             // check user type
-                            if (userType.equals("User"))
+                            if (userType.equals("user"))
                             {
+                                Log.d(TAG, "onDataChange: user");
                                 // open user dashboard
                                 startActivity(new Intent(SplashActivity.this, DashboardUserActivity.class));
                                 finish();
@@ -68,15 +72,21 @@ public class SplashActivity extends AppCompatActivity {
                             }
                             else if (userType.equals("recruiter"))
                             {
+                                Log.d(TAG, "onDataChange: recruiter");
                                 // open recruiter dashboard
                                 startActivity(new Intent(SplashActivity.this, DashboardRecruiterActivity.class));
                                 finish();
                             }
                             else if (userType.equals("admin"))
                             {
+                                Log.d(TAG, "onDataChange: admin");
                                 // open admin dashboard
                                 startActivity(new Intent(SplashActivity.this, DashboardAdminActivity.class));
                                 finish();
+                            }
+                            else {
+                                startActivity(new Intent(SplashActivity.this, LoginActivity.class));
+                                Log.d(TAG, "onDataChange: niko");
                             }
                         }
 

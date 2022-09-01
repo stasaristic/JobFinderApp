@@ -6,6 +6,7 @@ import android.app.Application;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.Environment;
+import android.provider.ContactsContract;
 import android.util.Log;
 import android.view.View;
 import android.widget.ProgressBar;
@@ -24,6 +25,7 @@ import com.github.barteksc.pdfviewer.listener.OnPageErrorListener;
 import com.google.android.gms.auth.api.signin.internal.Storage;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -34,6 +36,7 @@ import com.google.firebase.storage.StorageReference;
 
 import java.io.File;
 import java.io.FileOutputStream;
+import java.util.HashMap;
 
 //application class runs before your launcher activity
 public class MyApplication extends Application {
@@ -249,7 +252,7 @@ public class MyApplication extends Application {
                 });
     }
 
-    private static void saveDownloadedJobSpec(Context context, ProgressDialog progressDialog, byte[] bytes, String nameWithExtension, String jobId) {
+    public static void saveDownloadedJobSpec(Context context, ProgressDialog progressDialog, byte[] bytes, String nameWithExtension, String jobId) {
         String TAG = "SAVING_TAG";
         Log.d(TAG, "saveDownloadedJobSpec: Saving Job spec");
         try{
@@ -269,6 +272,69 @@ public class MyApplication extends Application {
         catch (Exception e) {
             Toast.makeText(context, "Failed to save due to " + e.getMessage(), Toast.LENGTH_SHORT).show();
             Log.d(TAG, "Failed to save due to "+ e.getMessage());
+        }
+    }
+
+
+
+    public static void addToInterested(Context context, String jobId) {
+        // interest can be added only if user is logged in
+        FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
+        if (firebaseAuth.getCurrentUser() == null) {
+            Toast.makeText(context, "You are not logged in", Toast.LENGTH_SHORT).show();
+        }
+        else {
+            long timestamp = System.currentTimeMillis();
+
+            //setup data to add in firebase db of current user for interested job
+            HashMap<String, Object> hashMap = new HashMap<>();
+            hashMap.put("jobId", ""+jobId);
+            hashMap.put("timestamp", ""+timestamp);
+
+            //save to db
+            DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Users");
+            ref.child(firebaseAuth.getUid()).child("Interested").child(jobId)
+                    .setValue(hashMap)
+                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void unused) {
+                            Toast.makeText(context, "Added to interested jobs list", Toast.LENGTH_SHORT).show();
+
+                        }
+                    })
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Toast.makeText(context, "Failed to add interested jobs list due to " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                        }
+                    });
+        }
+    }
+
+    public static void removeFromInterested(Context context, String jobId) {
+        // interest can be removed only if user is logged in
+        FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
+        if (firebaseAuth.getCurrentUser() == null) {
+            Toast.makeText(context, "You are not logged in", Toast.LENGTH_SHORT).show();
+        }
+        else {
+            //remove from db
+            DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Users");
+            ref.child(firebaseAuth.getUid()).child("Interested").child(jobId)
+                    .removeValue()
+                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void unused) {
+                            Toast.makeText(context, "Removed from interested jobs list", Toast.LENGTH_SHORT).show();
+
+                        }
+                    })
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Toast.makeText(context, "Failed to remove from interested jobs list due to " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                        }
+                    });
         }
     }
 

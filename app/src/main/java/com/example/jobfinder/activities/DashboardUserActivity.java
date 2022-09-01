@@ -56,7 +56,8 @@ public class DashboardUserActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 firebaseAuth.signOut();
-                checkUser();
+                Intent intent = new Intent(DashboardUserActivity.this, MainActivity.class);
+                startActivity(intent);
             }
         });
     }
@@ -72,7 +73,7 @@ public class DashboardUserActivity extends AppCompatActivity {
                 categoryArrayList.clear();
 
                 ModelCategory modelAll = new ModelCategory("01", "All", "", 1);
-                ModelCategory modelFavourites = new ModelCategory("02", "Favourites", "", 1);
+                ModelCategory modelFavourites = new ModelCategory("02", "Interested", "", 1);
 
                 categoryArrayList.add(modelAll);
                 categoryArrayList.add(modelFavourites);
@@ -155,8 +156,7 @@ public class DashboardUserActivity extends AppCompatActivity {
         if (firebaseUser == null)
         {
             // not logged in
-            startActivity(new Intent(DashboardUserActivity.this, MainActivity.class));
-            finish();
+            binding.subtitleTv.setText("Not Logged In");
         }
         else
         {

@@ -33,7 +33,9 @@ public class DashboardRecruiterActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 firebaseAuth.signOut();
-                checkUser();
+                Intent intent = new Intent(DashboardRecruiterActivity.this, MainActivity.class);
+                startActivity(intent);
+                finish();
             }
         });
 

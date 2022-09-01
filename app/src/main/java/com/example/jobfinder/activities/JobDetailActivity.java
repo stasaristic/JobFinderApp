@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
 import android.Manifest;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
@@ -15,7 +16,9 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.example.jobfinder.MyApplication;
+import com.example.jobfinder.R;
 import com.example.jobfinder.databinding.ActivityJobDetailBinding;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -26,6 +29,10 @@ public class JobDetailActivity extends AppCompatActivity {
 
     //view binding
     private ActivityJobDetailBinding binding;
+
+    boolean isInMyInterested = false;
+
+    private FirebaseAuth firebaseAuth;
 
     private static final String TAG_DOWNLOAD = "DOWNLOAD_TAG";
 
@@ -41,6 +48,11 @@ public class JobDetailActivity extends AppCompatActivity {
         jobId = intent.getStringExtra("jobId");
 
         binding.downloadBtn.setVisibility(View.GONE);
+
+        firebaseAuth = FirebaseAuth.getInstance();
+        if (firebaseAuth.getCurrentUser()!= null) {
+            checkIsInterested();
+        }
 
         lookJobDetails();
 
@@ -59,6 +71,24 @@ public class JobDetailActivity extends AppCompatActivity {
                 Intent intent1 = new Intent(JobDetailActivity.this, ReadMoreActivity.class);
                 intent1.putExtra("jobId", jobId);
                 startActivity(intent1);
+            }
+        });
+
+        //handle click, add/remove interested
+        binding.addInterestBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (firebaseAuth.getCurrentUser() == null) {
+                    Toast.makeText(JobDetailActivity.this, "You're not logged in", Toast.LENGTH_SHORT).show();
+                }
+                else {
+                    if(isInMyInterested) {
+                        MyApplication.removeFromInterested(JobDetailActivity.this, jobId);
+                    }
+                    else {
+                        MyApplication.addToInterested(JobDetailActivity.this, jobId);
+                    }
+                }
             }
         });
 
@@ -128,5 +158,32 @@ public class JobDetailActivity extends AppCompatActivity {
 
                     }
                 });
+    }
+
+    private void checkIsInterested() {
+        //logged in check
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Users");
+        reference.child(firebaseAuth.getUid()).child("Interested").child(jobId)
+                .addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        isInMyInterested = snapshot.exists(); // true if exists
+                        if (isInMyInterested) {
+                            binding.addInterestBtn.setCompoundDrawablesRelativeWithIntrinsicBounds(0, R.drawable.ic_favorite_white,0,0);
+                            binding.addInterestBtn.setText("Remove Interest");
+                        }
+                        else {
+                            binding.addInterestBtn.setCompoundDrawablesRelativeWithIntrinsicBounds(0, R.drawable.ic_favorite_border_white,0,0);
+                            binding.addInterestBtn.setText("Add Interest");
+
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
+
     }
 }

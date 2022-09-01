@@ -32,13 +32,10 @@ public class DashboardAdminActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 firebaseAuth.signOut();
-                checkUser();
+                Intent intent = new Intent(DashboardAdminActivity.this, MainActivity.class);
+                startActivity(intent);
             }
         });
-
-        // handle click, new user add page
-
-        // handle click, upgrade user page
 
         // handle click, company add page
         binding.addCompanyBtn.setOnClickListener(new View.OnClickListener() {
