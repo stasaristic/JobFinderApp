@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/back"
-    tools:context=".DashboardRecruiterActivity">
+    tools:context=".activities.DashboardRecruiterActivity">
 
     <RelativeLayout
         android:id="@+id/toolbarRl"
@@ -71,7 +71,7 @@
                 android:id="@+id/viewPostedJobsBtn"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="50dp"
                 android:layout_below="@id/postNewJobBtn"
                 android:background="@drawable/shape_button01"
                 android:textAllCaps="false"
@@ -79,7 +79,7 @@
                 android:textColor="@color/white"/>
 
             <!-- View Applicants Button-->
-            <androidx.appcompat.widget.AppCompatButton
+            <!--<androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/viewApplicantsBtn"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -88,7 +88,7 @@
                 android:background="@drawable/shape_button01"
                 android:textAllCaps="false"
                 android:text="+ View Applicants"
-                android:textColor="@color/white"/>
+                android:textColor="@color/white"/>-->
 
 
 

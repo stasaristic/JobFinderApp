@@ -1,4 +1,4 @@
-package com.example.jobfinder;
+package com.example.jobfinder.activities;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -11,9 +11,9 @@ import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Toast;
 
-import com.example.jobfinder.adapters.AdapterCompany;
-import com.example.jobfinder.databinding.ActivityCompanyAddBinding;
-import com.example.jobfinder.models.ModelCompany;
+import com.example.jobfinder.adapters.AdapterCategory;
+import com.example.jobfinder.databinding.ActivityCategoryAddBinding;
+import com.example.jobfinder.models.ModelCategory;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
@@ -26,10 +26,10 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class CompanyAddActivity extends AppCompatActivity {
+public class CategoryAddActivity extends AppCompatActivity {
 
     // view binding
-    private ActivityCompanyAddBinding binding;
+    private ActivityCategoryAddBinding binding;
 
     // firebase auth
     private FirebaseAuth firebaseAuth;
@@ -37,21 +37,21 @@ public class CompanyAddActivity extends AppCompatActivity {
     // progress dialog
     private ProgressDialog progressDialog;
 
-    // ArrayList to store companies
-    private ArrayList<ModelCompany> companyArrayList;
+    // ArrayList to store categories
+    private ArrayList<ModelCategory> categoryArrayList;
 
     // adapter
-    private AdapterCompany adapterCompany;
+    private AdapterCategory adapterCategory;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        binding = ActivityCompanyAddBinding.inflate(getLayoutInflater());
+        binding = ActivityCategoryAddBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
         // init firebase auth
         firebaseAuth = FirebaseAuth.getInstance();
-        loadCompanies();
+        loadCategories();
 
         // configure progress dialog
         progressDialog = new ProgressDialog(this);
@@ -84,7 +84,7 @@ public class CompanyAddActivity extends AppCompatActivity {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 try {
-                    adapterCompany.getFilter().filter(s);
+                    adapterCategory.getFilter().filter(s);
                 }
                 catch (Exception ex) {
 
@@ -99,27 +99,27 @@ public class CompanyAddActivity extends AppCompatActivity {
         });
     }
 
-    private void loadCompanies() {
+    private void loadCategories() {
         // init arraylist
-        companyArrayList = new ArrayList<>();
+        categoryArrayList = new ArrayList<>();
         // get all companies from firebase > Companies
-        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Companies");
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Categories");
         ref.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 // clear arraylist before adding data into it
-                companyArrayList.clear();
+                categoryArrayList.clear();
                 for (DataSnapshot ds: snapshot.getChildren()) {
                     // get data
-                    ModelCompany model = ds.getValue(ModelCompany.class);
+                    ModelCategory model = ds.getValue(ModelCategory.class);
 
                     // add to arraylist
-                    companyArrayList.add(model);
+                    categoryArrayList.add(model);
                 }
                 // set up adapter
-                adapterCompany = new AdapterCompany(CompanyAddActivity.this, companyArrayList);
+                adapterCategory = new AdapterCategory(CategoryAddActivity.this, categoryArrayList);
                 // set adapter to recycleview
-                binding.companiesRv.setAdapter(adapterCompany);
+                binding.categoryRv.setAdapter(adapterCategory);
             }
 
             @Override
@@ -129,23 +129,23 @@ public class CompanyAddActivity extends AppCompatActivity {
         });
     }
 
-    private String company = "";
+    private String category = "";
 
-    private void validateData() {
+    private void validateData(){
+        /* Before adding validate data */
 
         // get data
-        company = binding.companyEt.getText().toString().trim();
+        category = binding.categoryEt.getText().toString().trim();
         // validate if not empty
-        if (TextUtils.isEmpty(company)) {
+        if (TextUtils.isEmpty(category)) {
             Toast.makeText(this, "Please enter category...!", Toast.LENGTH_SHORT).show();
         }
         else {
-            addCompanyFirebase();
+            addCategoryFirebase();
         }
     }
 
-    private void addCompanyFirebase() {
-
+    private void addCategoryFirebase() {
         // show progress
         progressDialog.setMessage("Adding category...");
         progressDialog.show();
@@ -156,12 +156,12 @@ public class CompanyAddActivity extends AppCompatActivity {
         // setup info to add in firebase db
         HashMap<String, Object> hashMap = new HashMap<>();
         hashMap.put("id", ""+timestamp);
-        hashMap.put("company", ""+company);
+        hashMap.put("category", ""+category);
         hashMap.put("timestamp", timestamp);
         hashMap.put("uid", ""+firebaseAuth.getUid());
 
-        // add to firebase db ... Database Root > Companies > companyId > company info
-        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Companies");
+        // add to firebase db ... Database Root > Categories > categoryId > category info
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Categories");
         ref.child(""+timestamp)
                 .setValue(hashMap)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
@@ -169,7 +169,7 @@ public class CompanyAddActivity extends AppCompatActivity {
                     public void onSuccess(Void unused) {
                         // category add success
                         progressDialog.dismiss();
-                        Toast.makeText(CompanyAddActivity.this, "Company added successfully...", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(CategoryAddActivity.this, "Category added successfully...", Toast.LENGTH_SHORT).show();
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
@@ -177,7 +177,7 @@ public class CompanyAddActivity extends AppCompatActivity {
                     public void onFailure(@NonNull Exception e) {
                         // category add failure
                         progressDialog.dismiss();
-                        Toast.makeText(CompanyAddActivity.this, ""+e.getMessage(), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(CategoryAddActivity.this, ""+e.getMessage(), Toast.LENGTH_SHORT).show();
                     }
                 });
     }

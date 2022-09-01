@@ -1,4 +1,4 @@
-package com.example.jobfinder;
+package com.example.jobfinder.activities;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;

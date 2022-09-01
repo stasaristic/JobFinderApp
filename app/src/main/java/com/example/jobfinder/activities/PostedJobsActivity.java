@@ -1,4 +1,4 @@
-package com.example.jobfinder;
+package com.example.jobfinder.activities;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -9,7 +9,6 @@ import android.text.TextWatcher;
 import android.view.View;
 
 import com.example.jobfinder.adapters.AdapterJobPostsRecruiter;
-import com.example.jobfinder.databinding.ActivityJobPostBinding;
 import com.example.jobfinder.databinding.ActivityPostedJobsBinding;
 import com.example.jobfinder.models.ModelJobPosts;
 import com.google.firebase.auth.FirebaseAuth;

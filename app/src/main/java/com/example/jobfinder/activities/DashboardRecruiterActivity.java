@@ -1,4 +1,4 @@
-package com.example.jobfinder;
+package com.example.jobfinder.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
-import com.example.jobfinder.databinding.ActivityDashboardAdminBinding;
 import com.example.jobfinder.databinding.ActivityDashboardRecruiterBinding;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -54,13 +53,7 @@ public class DashboardRecruiterActivity extends AppCompatActivity {
             }
         });
 
-        // handle check, post new job click
-        binding.viewApplicantsBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(DashboardRecruiterActivity.this, ApplicantsReviewActivity.class));
-            }
-        });
+
     }
 
     private void checkUser() {

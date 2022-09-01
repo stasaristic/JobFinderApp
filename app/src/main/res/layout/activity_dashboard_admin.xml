@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/back"
-    tools:context=".DashboardAdminActivity">
+    tools:context=".activities.DashboardAdminActivity">
 
     <!-- Toolbar -->
     <RelativeLayout
@@ -57,35 +57,12 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <!--Add New User Button-->
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/addNewUserBtn"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@drawable/shape_button01"
-                android:textAllCaps="false"
-                android:text="+ Add New User"
-                android:textColor="@color/white" />
-
-            <!--Add Upgrade User Button-->
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/upgradeUserBtn"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:layout_below="@id/addNewUserBtn"
-                android:background="@drawable/shape_button01"
-                android:textAllCaps="false"
-                android:text="+ Upgrade User"
-                android:textColor="@color/white"/>
-
             <!--Add Company Button-->
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/addCompanyBtn"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:layout_below="@id/upgradeUserBtn"
                 android:background="@drawable/shape_button01"
                 android:textAllCaps="false"
                 android:text="+ Add Company"

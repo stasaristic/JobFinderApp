@@ -1,8 +1,10 @@
-package com.example.jobfinder;
+package com.example.jobfinder.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+
+import com.example.jobfinder.R;
 
 public class ApplicantsReviewActivity extends AppCompatActivity {
 

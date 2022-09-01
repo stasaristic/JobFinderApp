@@ -1,4 +1,4 @@
-package com.example.jobfinder;
+package com.example.jobfinder.activities;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -16,10 +16,6 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.example.jobfinder.databinding.ActivityJobPostBinding;
-import com.example.jobfinder.models.ModelCategory;
-import com.example.jobfinder.models.ModelCompany;
-import com.example.jobfinder.models.ModelSeniority;
-import com.example.jobfinder.models.ModelType;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;

@@ -16,62 +16,53 @@
         android:usesCleartextTraffic="true"
         android:theme="@style/Theme.MaterialComponents.NoActionBar">
         <activity
-            android:name=".ReadMoreActivity"
+            android:name=".activities.ReadMoreActivity"
             android:exported="false" />
         <activity
-            android:name=".JobDetailActivity"
+            android:name=".activities.JobDetailActivity"
             android:exported="false" />
         <activity
-            android:name=".EditJobRecruiterActivity"
+            android:name=".activities.EditJobRecruiterActivity"
             android:exported="false" />
         <activity
-            android:name=".ApplicantsReviewActivity"
+            android:name=".activities.ApplicantsReviewActivity"
             android:exported="false" />
         <activity
-            android:name=".PostedJobsActivity"
+            android:name=".activities.PostedJobsActivity"
             android:exported="false" />
         <activity
-            android:name=".JobPostActivity"
+            android:name=".activities.JobPostActivity"
             android:exported="false" />
         <activity
-            android:name=".NewUserActivity"
+            android:name=".activities.JobSeniorityActivity"
             android:exported="false" />
         <activity
-            android:name=".JobSeniorityActivity"
+            android:name=".activities.JobTypeAddActivity"
             android:exported="false" />
         <activity
-            android:name=".JobTypeAddActivity"
+            android:name=".activities.CompanyAddActivity"
             android:exported="false" />
         <activity
-            android:name=".CompanyAddActivity"
+            android:name=".activities.CategoryAddActivity"
             android:exported="false" />
         <activity
-            android:name=".UpgradeUserActivity"
+            android:name=".activities.DashboardRecruiterActivity"
             android:exported="false" />
         <activity
-            android:name=".NewUserAddActivity"
+            android:name=".activities.DashboardAdminActivity"
             android:exported="false" />
         <activity
-            android:name=".CategoryAddActivity"
+            android:name=".activities.DashboardUserActivity"
             android:exported="false" />
         <activity
-            android:name=".DashboardRecruiterActivity"
+            android:name=".activities.LoginActivity"
             android:exported="false" />
         <activity
-            android:name=".DashboardAdminActivity"
+            android:name=".activities.RegisterActivity"
             android:exported="false" />
+        <activity android:name=".activities.MainActivity" />
         <activity
-            android:name=".DashboardUserActivity"
-            android:exported="false" />
-        <activity
-            android:name=".LoginActivity"
-            android:exported="false" />
-        <activity
-            android:name=".RegisterActivity"
-            android:exported="false" />
-        <activity android:name=".MainActivity" />
-        <activity
-            android:name=".SplashActivity"
+            android:name=".activities.SplashActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

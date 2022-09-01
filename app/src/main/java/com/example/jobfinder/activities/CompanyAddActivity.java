@@ -1,4 +1,4 @@
-package com.example.jobfinder;
+package com.example.jobfinder.activities;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -11,9 +11,9 @@ import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Toast;
 
-import com.example.jobfinder.adapters.AdapterType;
-import com.example.jobfinder.databinding.ActivityJobTypeAddBinding;
-import com.example.jobfinder.models.ModelType;
+import com.example.jobfinder.adapters.AdapterCompany;
+import com.example.jobfinder.databinding.ActivityCompanyAddBinding;
+import com.example.jobfinder.models.ModelCompany;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
@@ -26,10 +26,10 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class JobTypeAddActivity extends AppCompatActivity {
+public class CompanyAddActivity extends AppCompatActivity {
 
     // view binding
-    private ActivityJobTypeAddBinding binding;
+    private ActivityCompanyAddBinding binding;
 
     // firebase auth
     private FirebaseAuth firebaseAuth;
@@ -37,29 +37,28 @@ public class JobTypeAddActivity extends AppCompatActivity {
     // progress dialog
     private ProgressDialog progressDialog;
 
-    // ArrayList to store categories
-    private ArrayList<ModelType> typeArrayList;
+    // ArrayList to store companies
+    private ArrayList<ModelCompany> companyArrayList;
 
     // adapter
-    private AdapterType adapterType;
-
+    private AdapterCompany adapterCompany;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        binding = ActivityJobTypeAddBinding.inflate(getLayoutInflater());
+        binding = ActivityCompanyAddBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        //init firebase auth
+        // init firebase auth
         firebaseAuth = FirebaseAuth.getInstance();
-        loadCategories();
+        loadCompanies();
 
-        //configure progress dialog
+        // configure progress dialog
         progressDialog = new ProgressDialog(this);
         progressDialog.setTitle("Please wait");
         progressDialog.setCanceledOnTouchOutside(false);
 
-        //handle click, begin upload category
+        // handle click, begin upload category
         binding.submitBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -67,7 +66,7 @@ public class JobTypeAddActivity extends AppCompatActivity {
             }
         });
 
-        //handle click, go back
+        // handle click, go back
         binding.backBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -85,7 +84,7 @@ public class JobTypeAddActivity extends AppCompatActivity {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 try {
-                    adapterType.getFilter().filter(s);
+                    adapterCompany.getFilter().filter(s);
                 }
                 catch (Exception ex) {
 
@@ -100,27 +99,27 @@ public class JobTypeAddActivity extends AppCompatActivity {
         });
     }
 
-    private void loadCategories() {
+    private void loadCompanies() {
         // init arraylist
-        typeArrayList = new ArrayList<>();
+        companyArrayList = new ArrayList<>();
         // get all companies from firebase > Companies
-        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Types");
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Companies");
         ref.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 // clear arraylist before adding data into it
-                typeArrayList.clear();
+                companyArrayList.clear();
                 for (DataSnapshot ds: snapshot.getChildren()) {
                     // get data
-                    ModelType model = ds.getValue(ModelType.class);
+                    ModelCompany model = ds.getValue(ModelCompany.class);
 
                     // add to arraylist
-                    typeArrayList.add(model);
+                    companyArrayList.add(model);
                 }
                 // set up adapter
-                adapterType = new AdapterType(JobTypeAddActivity.this, typeArrayList);
+                adapterCompany = new AdapterCompany(CompanyAddActivity.this, companyArrayList);
                 // set adapter to recycleview
-                binding.typeRv.setAdapter(adapterType);
+                binding.companiesRv.setAdapter(adapterCompany);
             }
 
             @Override
@@ -130,24 +129,25 @@ public class JobTypeAddActivity extends AppCompatActivity {
         });
     }
 
-    private String jobType = "";
+    private String company = "";
 
     private void validateData() {
+
         // get data
-        jobType = binding.jobTypeEt.getText().toString().trim();
+        company = binding.companyEt.getText().toString().trim();
         // validate if not empty
-        if (TextUtils.isEmpty(jobType)) {
+        if (TextUtils.isEmpty(company)) {
             Toast.makeText(this, "Please enter category...!", Toast.LENGTH_SHORT).show();
         }
         else {
-            addJobTypeFirebase();
+            addCompanyFirebase();
         }
     }
 
-    private void addJobTypeFirebase() {
+    private void addCompanyFirebase() {
 
         // show progress
-        progressDialog.setMessage("Adding type...");
+        progressDialog.setMessage("Adding category...");
         progressDialog.show();
 
         // get timestamp
@@ -156,12 +156,12 @@ public class JobTypeAddActivity extends AppCompatActivity {
         // setup info to add in firebase db
         HashMap<String, Object> hashMap = new HashMap<>();
         hashMap.put("id", ""+timestamp);
-        hashMap.put("type", ""+jobType);
+        hashMap.put("company", ""+company);
         hashMap.put("timestamp", timestamp);
         hashMap.put("uid", ""+firebaseAuth.getUid());
 
-        // add to firebase db ... Database Root > Types > typeId > type info
-        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Types");
+        // add to firebase db ... Database Root > Companies > companyId > company info
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Companies");
         ref.child(""+timestamp)
                 .setValue(hashMap)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
@@ -169,7 +169,7 @@ public class JobTypeAddActivity extends AppCompatActivity {
                     public void onSuccess(Void unused) {
                         // category add success
                         progressDialog.dismiss();
-                        Toast.makeText(JobTypeAddActivity.this, "Job type added successfully...", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(CompanyAddActivity.this, "Company added successfully...", Toast.LENGTH_SHORT).show();
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
@@ -177,9 +177,9 @@ public class JobTypeAddActivity extends AppCompatActivity {
                     public void onFailure(@NonNull Exception e) {
                         // category add failure
                         progressDialog.dismiss();
-                        Toast.makeText(JobTypeAddActivity.this, ""+e.getMessage(), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(CompanyAddActivity.this, ""+e.getMessage(), Toast.LENGTH_SHORT).show();
                     }
                 });
-
     }
+
 }
