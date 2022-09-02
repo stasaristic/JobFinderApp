@@ -59,151 +59,163 @@
 
     </RelativeLayout>
 
-    <!--Input Title-->
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/titleTil"
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="30dp"
-        android:layout_marginEnd="30dp"
-        android:layout_marginTop="225dp"
-        app:hintEnabled="false">
+        android:layout_marginTop="225dp">
 
-        <EditText
-            android:id="@+id/titleEt"
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/shape_edittext01"
-            android:drawableStart="@drawable/ic_work_gray"
-            android:drawablePadding="10dp"
-            android:hint="Job Title"
-            android:textColorHint="@color/gray_02"
-            android:inputType="textPersonName|textCapWords"
-            android:padding="10dp"
-            android:textSize="16sp"
-            android:textColor="@color/black"/>
+            android:layout_height="match_parent">
+            <!--Input Title-->
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/titleTil"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="30dp"
+                android:layout_marginEnd="30dp"
+                app:hintEnabled="false">
 
-    </com.google.android.material.textfield.TextInputLayout>
+                <EditText
+                    android:id="@+id/titleEt"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/shape_edittext01"
+                    android:drawableStart="@drawable/ic_work_gray"
+                    android:drawablePadding="10dp"
+                    android:hint="Job Title"
+                    android:textColorHint="@color/gray_02"
+                    android:inputType="textPersonName|textCapWords"
+                    android:padding="10dp"
+                    android:textSize="16sp"
+                    android:textColor="@color/black"/>
 
-    <!--Input Description-->
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/descriptionTil"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/titleTil"
-        android:layout_marginStart="30dp"
-        android:layout_marginEnd="30dp"
-        android:layout_marginTop="5dp"
-        app:hintEnabled="false">
+            </com.google.android.material.textfield.TextInputLayout>
 
-        <EditText
-            android:id="@+id/descriptionEt"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/shape_edittext01"
-            android:drawableStart="@drawable/ic_work_gray"
-            android:drawablePadding="10dp"
-            android:hint="Job Description"
-            android:textColorHint="@color/gray_02"
-            android:inputType="textMultiLine|textCapSentences"
-            android:padding="10dp"
-            android:textSize="16sp"
-            android:textColor="@color/black"/>
+            <!--Input Description-->
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/descriptionTil"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/titleTil"
+                android:layout_marginStart="30dp"
+                android:layout_marginEnd="30dp"
+                android:layout_marginTop="5dp"
+                app:hintEnabled="false">
 
-    </com.google.android.material.textfield.TextInputLayout>
+                <EditText
+                    android:id="@+id/descriptionEt"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/shape_edittext01"
+                    android:drawableStart="@drawable/ic_work_gray"
+                    android:drawablePadding="10dp"
+                    android:hint="Job Description"
+                    android:textColorHint="@color/gray_02"
+                    android:inputType="textMultiLine|textCapSentences"
+                    android:padding="10dp"
+                    android:textSize="16sp"
+                    android:textColor="@color/black"/>
 
-    <!--Pick a Company-->
-    <TextView
-        android:id="@+id/companyTv"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/descriptionTil"
-        android:layout_marginStart="30dp"
-        android:layout_marginEnd="30dp"
-        android:layout_marginTop="5dp"
-        android:background="@drawable/shape_edittext01"
-        android:drawableStart="@drawable/ic_company_gray"
-        android:drawableEnd="@drawable/ic_arrow_drop_down_gray"
-        android:drawablePadding="10dp"
-        android:gravity="center_vertical"
-        android:hint="Job Company"
-        android:textColorHint="@color/gray_02"
-        android:padding="10dp"
-        android:textColor="@color/black"
-        android:textSize="16sp"/>
+            </com.google.android.material.textfield.TextInputLayout>
 
-    <!--Pick a Category-->
-    <TextView
-        android:id="@+id/categoryTv"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/companyTv"
-        android:layout_marginStart="30dp"
-        android:layout_marginEnd="30dp"
-        android:layout_marginTop="5dp"
-        android:background="@drawable/shape_edittext01"
-        android:drawableStart="@drawable/ic_category_gray"
-        android:drawableEnd="@drawable/ic_arrow_drop_down_gray"
-        android:drawablePadding="10dp"
-        android:gravity="center_vertical"
-        android:hint="Job Category"
-        android:textColorHint="@color/gray_02"
-        android:padding="10dp"
-        android:textColor="@color/black"
-        android:textSize="16sp"/>
+            <!--Pick a Company-->
+            <TextView
+                android:id="@+id/companyTv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/descriptionTil"
+                android:layout_marginStart="30dp"
+                android:layout_marginEnd="30dp"
+                android:layout_marginTop="5dp"
+                android:background="@drawable/shape_edittext01"
+                android:drawableStart="@drawable/ic_company_gray"
+                android:drawableEnd="@drawable/ic_arrow_drop_down_gray"
+                android:drawablePadding="10dp"
+                android:gravity="center_vertical"
+                android:hint="Job Company"
+                android:textColorHint="@color/gray_02"
+                android:padding="10dp"
+                android:textColor="@color/black"
+                android:textSize="16sp"/>
 
-    <!--Pick a Type-->
-    <TextView
-        android:id="@+id/typeTv"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/categoryTv"
-        android:layout_marginStart="30dp"
-        android:layout_marginEnd="30dp"
-        android:layout_marginTop="5dp"
-        android:background="@drawable/shape_edittext01"
-        android:drawableStart="@drawable/ic_job_type_gray"
-        android:drawableEnd="@drawable/ic_arrow_drop_down_gray"
-        android:drawablePadding="10dp"
-        android:gravity="center_vertical"
-        android:hint="Job Work Time Type"
-        android:textColorHint="@color/gray_02"
-        android:padding="10dp"
-        android:textColor="@color/black"
-        android:textSize="16sp"/>
+            <!--Pick a Category-->
+            <TextView
+                android:id="@+id/categoryTv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/companyTv"
+                android:layout_marginStart="30dp"
+                android:layout_marginEnd="30dp"
+                android:layout_marginTop="5dp"
+                android:background="@drawable/shape_edittext01"
+                android:drawableStart="@drawable/ic_category_gray"
+                android:drawableEnd="@drawable/ic_arrow_drop_down_gray"
+                android:drawablePadding="10dp"
+                android:gravity="center_vertical"
+                android:hint="Job Category"
+                android:textColorHint="@color/gray_02"
+                android:padding="10dp"
+                android:textColor="@color/black"
+                android:textSize="16sp"/>
 
-    <!--Pick a Seniority-->
-    <TextView
-        android:id="@+id/seniorityTv"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/typeTv"
-        android:layout_marginStart="30dp"
-        android:layout_marginEnd="30dp"
-        android:layout_marginTop="5dp"
-        android:background="@drawable/shape_edittext01"
-        android:drawableStart="@drawable/ic_seniority_gray"
-        android:drawableEnd="@drawable/ic_arrow_drop_down_gray"
-        android:drawablePadding="10dp"
-        android:gravity="center_vertical"
-        android:hint="Job Seniority Required"
-        android:textColorHint="@color/gray_02"
-        android:padding="10dp"
-        android:textColor="@color/black"
-        android:textSize="16sp"/>
+            <!--Pick a Type-->
+            <TextView
+                android:id="@+id/typeTv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/categoryTv"
+                android:layout_marginStart="30dp"
+                android:layout_marginEnd="30dp"
+                android:layout_marginTop="5dp"
+                android:background="@drawable/shape_edittext01"
+                android:drawableStart="@drawable/ic_job_type_gray"
+                android:drawableEnd="@drawable/ic_arrow_drop_down_gray"
+                android:drawablePadding="10dp"
+                android:gravity="center_vertical"
+                android:hint="Job Work Time Type"
+                android:textColorHint="@color/gray_02"
+                android:padding="10dp"
+                android:textColor="@color/black"
+                android:textSize="16sp"/>
 
-    <!--Submit-->
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/submitBtn"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="30dp"
-        android:layout_marginEnd="30dp"
-        android:layout_marginTop="10dp"
-        android:background="@drawable/shape_button01"
-        android:text="Submit"
-        android:layout_below="@id/seniorityTv"
-        android:textColor="@color/white"/>
+            <!--Pick a Seniority-->
+            <TextView
+                android:id="@+id/seniorityTv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/typeTv"
+                android:layout_marginStart="30dp"
+                android:layout_marginEnd="30dp"
+                android:layout_marginTop="5dp"
+                android:background="@drawable/shape_edittext01"
+                android:drawableStart="@drawable/ic_seniority_gray"
+                android:drawableEnd="@drawable/ic_arrow_drop_down_gray"
+                android:drawablePadding="10dp"
+                android:gravity="center_vertical"
+                android:hint="Job Seniority Required"
+                android:textColorHint="@color/gray_02"
+                android:padding="10dp"
+                android:textColor="@color/black"
+                android:textSize="16sp"/>
+
+            <!--Submit-->
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/submitBtn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="30dp"
+                android:layout_marginEnd="30dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/shape_button01"
+                android:text="Submit"
+                android:layout_below="@id/seniorityTv"
+                android:textColor="@color/white"/>
+        </RelativeLayout>
+
+
+    </ScrollView>
+
 
 
 

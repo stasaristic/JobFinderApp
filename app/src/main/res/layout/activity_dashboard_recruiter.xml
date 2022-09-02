@@ -71,24 +71,12 @@
                 android:id="@+id/viewPostedJobsBtn"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="50dp"
+                android:layout_marginTop="20dp"
                 android:layout_below="@id/postNewJobBtn"
                 android:background="@drawable/shape_button01"
                 android:textAllCaps="false"
                 android:text="+ View Posted Jobs"
                 android:textColor="@color/white"/>
-
-            <!-- View Applicants Button-->
-            <!--<androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/viewApplicantsBtn"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:layout_below="@id/viewPostedJobsBtn"
-                android:background="@drawable/shape_button01"
-                android:textAllCaps="false"
-                android:text="+ View Applicants"
-                android:textColor="@color/white"/>-->
 
 
 
@@ -97,29 +85,6 @@
 
     </ScrollView>
 
-    <LinearLayout
-        android:id="@+id/bottomLl"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_alignParentBottom="true"
-        android:layout_marginStart="10dp"
-        android:layout_marginEnd="10dp"
-        android:layout_marginBottom="10dp">
-
-        <!-- Edit Profile Button-->
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/editProfileBtn"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:background="@drawable/shape_button01"
-            android:minHeight="50dp"
-            android:text="+ Edit Profile"
-            android:textAllCaps="false"
-            android:textColor="@color/white"/>
-
-    </LinearLayout>
 
 
 </RelativeLayout>

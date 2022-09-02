@@ -19,6 +19,7 @@ import com.example.jobfinder.MyApplication;
 import com.example.jobfinder.R;
 import com.example.jobfinder.databinding.ActivityJobDetailBinding;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -82,12 +83,7 @@ public class JobDetailActivity extends AppCompatActivity {
                     Toast.makeText(JobDetailActivity.this, "You're not logged in", Toast.LENGTH_SHORT).show();
                 }
                 else {
-                    if(isInMyInterested) {
-                        MyApplication.removeFromInterested(JobDetailActivity.this, jobId);
-                    }
-                    else {
-                        MyApplication.addToInterested(JobDetailActivity.this, jobId);
-                    }
+                    checkUserTypeForInterest();
                 }
             }
         });
@@ -124,6 +120,46 @@ public class JobDetailActivity extends AppCompatActivity {
 
     }
 
+    private void checkUserTypeForInterest() {
+        // get current user
+        FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
+
+        //check in db
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Users");
+        ref.child(firebaseUser.getUid())
+                .addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot snapshot) {
+                        // get user type
+                        String userType = "" + snapshot.child("userType").getValue();
+                        // check user type
+                        if (userType.equals("user"))
+                        {
+                            //can add to interested
+                            if(isInMyInterested) {
+                                MyApplication.removeFromInterested(JobDetailActivity.this, jobId);
+                            }
+                            else {
+                                MyApplication.addToInterested(JobDetailActivity.this, jobId);
+                            }
+                        }
+                        else if (userType.equals("recruiter"))
+                        {
+                            // cant add
+                            Toast.makeText(JobDetailActivity.this, "Recruiter doesn't have favourites", Toast.LENGTH_SHORT).show();
+                        }
+                        else if (userType.equals("admin"))
+                        {
+                            Toast.makeText(JobDetailActivity.this, "Admin doesn't have favourites", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError error) {
+
+                    }
+                });
+    }
     private void lookJobDetails() {
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Jobs");
         ref.child(jobId)

@@ -42,9 +42,10 @@
 
     <!--All content under scrollview-->
     <ScrollView
-        android:layout_below="@id/toolbarRl"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_above="@id/bookOptionsLl"
+        android:layout_below="@id/toolbarRl"
         android:padding="10dp">
 
         <LinearLayout
@@ -61,18 +62,18 @@
                     android:layout_width="100dp"
                     android:layout_height="140dp"
                     android:layout_marginEnd="5dp"
-                    android:background="@color/gray_02" >
+                    android:background="@color/gray_02">
 
                     <!--Pdf view-->
                     <com.github.barteksc.pdfviewer.PDFView
                         android:id="@+id/pdfView"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"/>
+                        android:layout_height="match_parent" />
 
                     <ProgressBar
                         android:id="@+id/progressBar"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"/>
+                        android:layout_height="match_parent" />
 
                 </RelativeLayout>
 
@@ -84,7 +85,7 @@
                     android:layout_height="wrap_content"
                     android:layout_toEndOf="@id/jobRl"
                     android:text="Title of Job"
-                    android:textColor="@color/gray_03"/>
+                    android:textColor="@color/gray_03" />
 
                 <!--Table-->
                 <TableLayout
@@ -93,8 +94,8 @@
                     android:layout_below="@id/titleTv"
                     android:layout_toEndOf="@id/jobRl">
 
-                    <TableRow
-                        android:layout_marginTop="10dp">
+                    <TableRow android:layout_marginTop="10dp">
+
                         <TextView
                             android:id="@+id/companyLabelTv"
                             style="@style/TextAppearance.MaterialComponents.Caption"
@@ -102,21 +103,22 @@
                             android:layout_height="wrap_content"
                             android:layout_marginEnd="5dp"
                             android:text="Company"
-                            android:textColor="@color/gray_03"/>
+                            android:textColor="@color/gray_03" />
 
                         <TextView
                             android:id="@+id/companyTv"
                             style="@style/TextAppearance.MaterialComponents.Caption"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_weight="1"
                             android:layout_marginEnd="5dp"
+                            android:layout_weight="1"
                             android:text="N/A"
-                            android:textColor="@color/gray_03"/>
+                            android:textColor="@color/gray_03" />
 
                     </TableRow>
-                    <TableRow
-                        android:layout_marginTop="10dp">
+
+                    <TableRow android:layout_marginTop="10dp">
+
                         <TextView
                             android:id="@+id/categoryLabelTv"
                             style="@style/TextAppearance.MaterialComponents.Caption"
@@ -124,7 +126,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginEnd="5dp"
                             android:text="Category"
-                            android:textColor="@color/gray_03"/>
+                            android:textColor="@color/gray_03" />
 
                         <TextView
                             android:id="@+id/categoryTv"
@@ -134,11 +136,12 @@
                             android:layout_marginEnd="5dp"
                             android:layout_weight="1"
                             android:text="N/A"
-                            android:textColor="@color/gray_03"/>
+                            android:textColor="@color/gray_03" />
 
                     </TableRow>
-                    <TableRow
-                        android:layout_marginTop="10dp">
+
+                    <TableRow android:layout_marginTop="10dp">
+
                         <TextView
                             android:id="@+id/typeLabelTv"
                             style="@style/TextAppearance.MaterialComponents.Caption"
@@ -146,7 +149,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginEnd="5dp"
                             android:text="Type"
-                            android:textColor="@color/gray_03"/>
+                            android:textColor="@color/gray_03" />
 
                         <TextView
                             android:id="@+id/typeTv"
@@ -156,12 +159,12 @@
                             android:layout_marginEnd="5dp"
                             android:layout_weight="1"
                             android:text="N/A"
-                            android:textColor="@color/gray_03"/>
+                            android:textColor="@color/gray_03" />
 
                     </TableRow>
 
-                    <TableRow
-                        android:layout_marginTop="10dp">
+                    <TableRow android:layout_marginTop="10dp">
+
                         <TextView
                             android:id="@+id/seniorityLabelTv"
                             style="@style/TextAppearance.MaterialComponents.Caption"
@@ -169,17 +172,17 @@
                             android:layout_height="wrap_content"
                             android:layout_marginEnd="5dp"
                             android:text="Seniority"
-                            android:textColor="@color/gray_03"/>
+                            android:textColor="@color/gray_03" />
 
                         <TextView
                             android:id="@+id/seniorityTv"
                             style="@style/TextAppearance.MaterialComponents.Caption"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_weight="1"
                             android:layout_marginEnd="5dp"
+                            android:layout_weight="1"
                             android:text="N/A"
-                            android:textColor="@color/gray_03"/>
+                            android:textColor="@color/gray_03" />
 
                     </TableRow>
 
@@ -196,7 +199,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
                 android:text="The description of the book"
-                android:textColor="@color/black"/>
+                android:textColor="@color/black" />
 
         </LinearLayout>
     </ScrollView>

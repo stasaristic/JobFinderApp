@@ -15,6 +15,7 @@ import android.view.ViewGroup;
 import com.example.jobfinder.adapters.AdapterJobUser;
 import com.example.jobfinder.databinding.FragmentJobUserBinding;
 import com.example.jobfinder.models.ModelJobPosts;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -38,6 +39,8 @@ public class JobUserFragment extends Fragment {
     //view binding
     private FragmentJobUserBinding binding;
 
+    private FirebaseAuth firebaseAuth;
+
     private static final String TAG = "JOBS_USER_TAG";
 
     public JobUserFragment() {
@@ -57,6 +60,8 @@ public class JobUserFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        firebaseAuth = FirebaseAuth.getInstance();
         if (getArguments() != null) {
             categoryId = getArguments().getString("categoryId");
             category = getArguments().getString("category");
@@ -76,7 +81,9 @@ public class JobUserFragment extends Fragment {
 
         }
         else if(category.equals("Interested")) {
-
+            if (firebaseAuth != null) {
+                loadInterestingJobs();
+            }
         }
         else {
             loadCategorizedJobs();
@@ -107,6 +114,69 @@ public class JobUserFragment extends Fragment {
         });
 
         return binding.getRoot();
+    }
+
+    private void loadInterestingJobs() {
+        jobPostsArrayList = new ArrayList<>();
+
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Users");
+        ref.child(firebaseAuth.getUid()).child("Interested")
+                .addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        // clear list before adding data
+                        jobPostsArrayList.clear();
+                        for (DataSnapshot ds: snapshot.getChildren()) {
+                            String jobId = ""+ds.child("jobId").getValue();
+                            Log.d(TAG, "onDataChange: " + jobId);
+
+                            //set id to model
+                            //ModelJobPosts model = new ModelJobPosts();
+                            //model.setId(jobId);
+
+
+                            DatabaseReference refJob = FirebaseDatabase.getInstance().getReference("Jobs");
+                            refJob.child(jobId)
+                                    .addListenerForSingleValueEvent(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(@NonNull DataSnapshot snapshot) {
+
+                                    String title = ""+snapshot.child("title").getValue();
+                                    String description = ""+snapshot.child("description").getValue();
+                                    String categoryId = ""+snapshot.child("categoryId").getValue();
+                                    String typeId = ""+snapshot.child("typeId").getValue();
+                                    String companyId = ""+snapshot.child("companyId").getValue();
+                                    String seniorityId = ""+snapshot.child("seniorityId").getValue();
+                                    long timestamp = (long) snapshot.child("timestamp").getValue();
+                                    String url = ""+snapshot.child("url").getValue();
+                                    String uid = ""+snapshot.child("uid").getValue();
+
+                                    ModelJobPosts modelJobPosts = new ModelJobPosts(uid, jobId, title, description,
+                                            companyId, categoryId, typeId,
+                                            seniorityId, url, timestamp, true);
+
+                                    jobPostsArrayList.add(modelJobPosts);
+
+                                    adapterJobUser = new AdapterJobUser(getContext(), jobPostsArrayList);
+
+                                    binding.jobsRv.setAdapter(adapterJobUser);
+                                }
+
+                                @Override
+                                public void onCancelled(@NonNull DatabaseError error) {
+
+                                }
+                            });
+                        }
+
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
+
     }
 
     private void loadCategorizedJobs() {

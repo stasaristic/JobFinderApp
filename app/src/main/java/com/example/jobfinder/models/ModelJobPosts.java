@@ -5,15 +5,17 @@ public class ModelJobPosts {
     String uid, id, title, description, companyId, categoryId, typeId, seniorityId;
     String url;
     long timestamp;
+    boolean interested;
 
     // constructors
     // empty constructor, required for firebase
     public ModelJobPosts() {
     }
     // constructor with parameters
-    public ModelJobPosts(String uid, String id, String title,
-                         String description, String companyId, String categoryId,
-                         String typeId, String seniorityId, String url, long timestamp) {
+
+    public ModelJobPosts(String uid, String id, String title, String description,
+                         String companyId, String categoryId, String typeId,
+                         String seniorityId, String url, long timestamp, boolean interested) {
         this.uid = uid;
         this.id = id;
         this.title = title;
@@ -24,7 +26,9 @@ public class ModelJobPosts {
         this.seniorityId = seniorityId;
         this.url = url;
         this.timestamp = timestamp;
+        this.interested = interested;
     }
+
 
     /* Getters/Setter */
 
@@ -106,5 +110,13 @@ public class ModelJobPosts {
 
     public void setTimestamp(long timestamp) {
         this.timestamp = timestamp;
+    }
+
+    public boolean isInterested() {
+        return interested;
+    }
+
+    public void setInterested(boolean interested) {
+        this.interested = interested;
     }
 }
